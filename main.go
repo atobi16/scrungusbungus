@@ -4,9 +4,11 @@ import (
 	"encoding/json"
 	"fmt"
 	"io/ioutil"
+	"math/rand"
 	"os"
 	"os/signal"
 	"syscall"
+	"time"
 
 	"github.com/bwmarrin/discordgo"
 )
@@ -54,4 +56,15 @@ func messageCreate(s *discordgo.Session, m *discordgo.MessageCreate) {
 	if m.Content == "Marco" {
 		s.ChannelMessageSend(m.ChannelID, "Polo")
 	}
+	if m.Content == "Roll" {
+		s.ChannelMessageSend(m.ChannelID, roll())
+
+	}
+}
+func roll() string {
+	seed()
+	return (fmt.Sprintf("%v", select.Intn(6)+1))
+}
+func seed() {
+	select.Seed(time.Now().UnixNano())
 }
